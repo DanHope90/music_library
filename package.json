@@ -4,9 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-   "test": "echo \"Error: no test specified\" && exit 1",
-   "prestart": "node utils/create-database.js",
-    "start": "nodemon -r dotenv/config index.js" 
+    "pretest": "node utils/create-database.js test",
+    "test": "mocha tests/**/*.js --exit --recursive --timeout 60000 --file ./tests/test-setup.js",
+    "posttest": "node utils/drop-database.js",
+    "prestart": "node utils/create-database.js",
+    "start": "nodemon -r dotenv/config index.js"
   },
   "repository": {
     "type": "git",
@@ -20,11 +22,13 @@
   },
   "homepage": "https://github.com/DanHope90/music_library#readme",
   "devDependencies": {
+    "chai": "^4.3.6",
     "dotenv": "^16.0.0",
     "eslint": "^8.9.0",
-    "jest": "^27.5.1",
+    "mocha": "^9.2.1",
     "nodemon": "^2.0.15",
-    "prettier": "2.5.1"
+    "prettier": "2.5.1",
+    "supertest": "^6.2.2"
   },
   "dependencies": {
     "express": "^4.17.2",
