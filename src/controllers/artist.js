@@ -1,6 +1,5 @@
 const getDb = require('../services/db');
 
-
 exports.create = async (req, res) => {
     const db = await getDb();
     const { name, genre } = req.body;
@@ -20,7 +19,7 @@ exports.create = async (req, res) => {
   };
 
 exports.read = async (req, res) => {
-    const db = await getDb();
+  const db = await getDb();
   
     try {
       const [artists] = await db.query(`SELECT * FROM Artist`);
@@ -47,4 +46,26 @@ exports.readById = async (req, res) => {
   }
   db.close();
 };
-  
+
+exports.updateId = async (req, res) => {
+  const db = await getDb();
+  const { artistId } = req.params;
+  const data = req.body;
+
+  try {
+    const [ {affectedRows},
+     ] = await db.query(`UPDATE Artist SET ? WHERE id =?`, [
+      data,
+      artistId,
+    ]);
+
+    if(!affectedRows) {
+      res.sendStatus(404);
+    } else {
+      res.status(200).json(affectedRows);
+    } 
+  } catch (err) {
+      res.sendStatus(500);
+    }
+    db.close();
+  };
