@@ -1,3 +1,4 @@
+const { query } = require('express');
 const getDb = require('../services/db');
 
 exports.create = async (req, res) => {
@@ -49,9 +50,8 @@ exports.readById = async (req, res) => {
 
 exports.updateId = async (req, res) => {
   const db = await getDb();
-  const { artistId } = req.params;
-  const data = req.body;
-
+  const { artistId } = req.params; // why in curly braces here 
+  const data = req.body; // why not in the curly braces here 
   try {
     const [ {affectedRows},
      ] = await db.query(`UPDATE Artist SET ? WHERE id =?`, [
@@ -65,7 +65,29 @@ exports.updateId = async (req, res) => {
       res.status(200).json(affectedRows);
     } 
   } catch (err) {
-      res.sendStatus(500);
+      res.sendStatus(500); // why send error here if use of 404 above 
     }
+    db.close();
+  };
+
+  exports.deleteId = async (req, res) => {
+    const db = await getDb();
+    const { artistId } = req.params;
+
+      try {
+        const [
+          { affectedRows },
+          ] = await db.query('DELETE FROM Artist WHERE id = ?', [
+          artistId,
+        ]);
+    
+        if(!affectedRows) {
+          res.sendStatus(404); 
+        } else {
+          res.status(200).json();
+        }
+      } catch (err) { 
+        res.sendStatus(500);
+      }
     db.close();
   };
