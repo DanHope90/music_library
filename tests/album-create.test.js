@@ -1,4 +1,3 @@
-
 const { expect } = require('chai');
 const request = require('supertest');
 const getDb = require('../src/services/db');
@@ -16,7 +15,7 @@ describe('create album', () => {
       ]),
     ]);
 
-    [artists] = await db.query('SELECT * FROM Artist')
+    [artists] = await db.query('SELECT * FROM Artist');
   });
 
   afterEach(async () => {
@@ -28,15 +27,15 @@ describe('create album', () => {
   describe('/artist/:artistId/album', () => {
     describe('POST', () => {
       it('creates a new album in the database', async () => {
-        const artistId = artists.id
+        const artistId = artists[0].id;
         const res = await request(app).post(`/artist/${artistId}/album`).send({
           name: 'Terrible Hits',
           year: 2590,
-          artistId
+          artistId,
         });
 
         expect(res.status).to.equal(201);
-        
+
         const [[albumEntries]] = await db.query(
           `SELECT * FROM Album WHERE name = 'Terrible Hits'`
         );

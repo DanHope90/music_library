@@ -9,8 +9,7 @@ app.use(express.json());
 app.use('/artist', router);
 
 app.get('/', (req, res) => {
-    res.status(200).send('Hello World' );
-})
-
+  res.status(200).send('Hello World');
+});
 
 module.exports = app;

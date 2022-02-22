@@ -6,6 +6,4 @@
 
 // // router.get("/", albumController.read)
 
-
-
 // module.exports = router;

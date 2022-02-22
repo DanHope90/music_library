@@ -16,13 +16,12 @@ require('dotenv').config({
   path: path.join(__dirname, envFile),
 });
 
-// destructure environment variables from process.env 
+// destructure environment variables from process.env
 const { DB_PASSWORD, DB_NAME, DB_USER, DB_HOST, DB_PORT } = process.env;
 
 // This asyncronous function will run before app
 const setUpDatabase = async () => {
   try {
-
     // connect to the database
     const db = await mysql.createConnection({
       host: DB_HOST,
@@ -47,9 +46,8 @@ const setUpDatabase = async () => {
       FOREIGN KEY (artistId) REFERENCES Artist(id)
     )`);
     db.close();
-
   } catch (err) {
-   // if something goes wrong, console.log the error and the current environment variables
+    // if something goes wrong, console.log the error and the current environment variables
     console.log(
       `Your environment variables might be wrong. Please double check .env file`
     );
